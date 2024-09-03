@@ -1,0 +1,126 @@
+.page>.title{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page>.title>button{
+    padding: 12px 37px;
+    color: white;
+    background-color: var(--var-main-color);
+    border-radius: 10px;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.page>.title>button:hover{
+    background-color: var(--var-main-color-hover);
+}
+
+.page>.title>button:active{
+    background-color: var(--var-main-color-active);
+}
+
+.page>.card-list{
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 30px;
+}
+
+.page>.card-list>.card{
+    height: 300px;
+    background-color: white;
+    padding: 25px;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.page>.card-list>.card>.title{
+    font-size: 24px;
+    color: #3C3C3C;
+    font-weight: 700;
+    transition: .3s all;
+}
+
+.page>.card-list>.card>.responsible{
+    margin-top: 10px;
+    font-size: 14px;
+    color: #C4CACD;
+    font-weight: 700;
+}
+
+.page>.card-list>.card>.status{
+    position: absolute;
+    margin-top: 100px;
+    padding: 5px 0;
+    width: 120px;
+    text-align: center;
+    background-color: #F6F8FA;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.page>.card-list>.card.plan{
+    border-bottom: 10px solid #BE9AE4;
+}
+
+.page>.card-list>.card.plan>.status{
+    color: #BE9AE4;
+}
+
+.page>.card-list>.card.work{
+    border-bottom: 10px solid #849FF4;
+}
+
+.page>.card-list>.card.work>.status{
+    color: #849FF4;
+}
+
+.page>.card-list>.card.sent{
+    border-bottom: 10px solid #D8BFD8;
+}
+
+.page>.card-list>.card.sent>.status{
+    color: #D8BFD8;
+}
+
+.page>.card-list>.card.shipped{
+    border-bottom: 10px solid #AFDAFC;
+}
+
+.page>.card-list>.card.shipped>.status{
+    color: #AFDAFC;
+}
+
+.page>.card-list>.card.completed{
+    border-bottom: 10px solid #71BC78;
+}
+
+.page>.card-list>.card.completed>.status{
+    color: #71BC78;
+}
+
+.page>.card-list>.card:hover{
+    background-color: var(--var-main-color);
+    border: 0;
+}
+
+.page>.card-list>.card:hover .title{
+    color: white;
+}
+
+.page>.card-list>.card:hover .responsible{
+    opacity: 0;
+}
+
+.page>.card-list>.card:hover .status{
+    opacity: 0;
+}
+

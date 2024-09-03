@@ -1,0 +1,116 @@
+body{
+    background-color: #F9F9FB;
+}
+
+.container{
+    display: grid;
+    grid-template-columns: 220px 1fr;
+}
+
+.container>.nav{
+    min-height: 100vh;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.container>.nav>.logo{
+    width: 110px;
+    padding: 13px 0;
+    margin: 0 auto;
+    margin-top: 10px;
+    border-radius: 100px;
+    color: white;
+    font-weight: 700;
+    text-align: center;
+    background-color: var(--var-main-color);
+    outline: 2px solid #fff;
+    outline-offset: -4px;
+    border: 2px solid var(--var-main-color);
+    cursor: pointer;
+}
+
+.container>.nav>p.title{
+    margin-top: 20px;
+    color: #6A6A6A;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.container>.nav>a{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 10px;
+    padding-left: 10px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    text-decoration: none;
+    color: #6A6A6A;
+    font-weight: 500;
+    font-size: 14px;
+    transition: .3s all;
+}
+
+.container>.nav>a:hover{
+    background-color: var(--var-main-color);
+    color: white;
+}
+
+.container>.nav>a>img{
+    transition: .3s all;
+}
+
+.container>.nav>a:hover img{
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+}
+
+.container>.nav>a.active{
+    background-color: var(--var-main-color);
+    color: white;
+}
+
+.container>.nav>a.active>img{
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+}
+
+.container>.content>header{
+    height: 73px;
+    background-color: white;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding-right: 20px;
+}
+
+.container>.content>header>.profile{
+    display: flex;
+    align-items: center;
+}
+
+.container>.content>header>.profile>.info{
+    margin-top: -10px;
+    padding-left: 7px;
+}
+
+.container>.content>header>.profile>.info>.name{
+    color: #1E1E1E;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.container>.content>header>.profile>.info>.role{
+    color: #6A6A6A;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.container>.content>header>.profile>img{
+    height: 50px;
+}
+
+.container>.content>.page{
+    padding: 20px;
+}
