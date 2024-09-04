@@ -82,7 +82,7 @@ if ($result->num_rows > 0) {
                             $responsibleId = $row['projectResponsible'];
                             if($row['projectStatusId'] == 1){
                                 echo '
-                                    <div class="card plan">
+                                    <div class="card plan" onClick="window.location.href = \'project-info?projectId='.$row['projectId'].'\'">
                                         <p class="title">'.$row['projectName'].'</p>
                                         <p class="responsible">'; 
                                         
@@ -100,7 +100,7 @@ if ($result->num_rows > 0) {
                                     ';
                             } elseif($row['projectStatusId'] == 2){ 
                                 echo '
-                                <div class="card work">
+                                <div class="card work" onClick="window.location.href = \'project-info?projectId='.$row['projectId'].'\'">
                                     <p class="title">'.$row['projectName'].'</p>
                                         <p class="responsible">'; 
                                         
@@ -118,7 +118,7 @@ if ($result->num_rows > 0) {
                                 ';
                             } elseif($row['projectStatusId'] == 3){ 
                                 echo '
-                                <div class="card sent">
+                                <div class="card sent" onClick="window.location.href = \'project-info?projectId='.$row['projectId'].'\'">
                                     <p class="title">'.$row['projectName'].'</p>
                                         <p class="responsible">'; 
                                         
@@ -136,7 +136,7 @@ if ($result->num_rows > 0) {
                                 ';
                             } elseif($row['projectStatusId'] == 4){ 
                                 echo '
-                                <div class="card shipped">
+                                <div class="card shipped" onClick="window.location.href = \'project-info?projectId='.$row['projectId'].'\'">
                                     <p class="title">'.$row['projectName'].'</p>
                                         <p class="responsible">'; 
                                         
@@ -154,7 +154,7 @@ if ($result->num_rows > 0) {
                                 ';
                             } elseif($row['projectStatusId'] == 5){ 
                                 echo '
-                                <div class="card completed">
+                                <div class="card completed" onClick="window.location.href = \'project-info?projectId='.$row['projectId'].'\'">
                                     <p class="title">'.$row['projectName'].'</p>
                                         <p class="responsible">'; 
                                         
@@ -172,7 +172,7 @@ if ($result->num_rows > 0) {
                                 ';
                             } else{
                                 echo '
-                                <div class="card">
+                                <div class="card" onClick="window.location.href = \'project-info?projectId='.$row['projectId'].'\'" >
                                     <p class="title">'.$row['projectName'].'</p>
                                         <p class="responsible">'; 
                                         

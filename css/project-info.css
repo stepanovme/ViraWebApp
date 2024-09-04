@@ -1,0 +1,238 @@
+.page>.title{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page>.title>h1>a{
+    text-decoration: none;
+    color: black;
+    outline: none;
+}
+
+.page>.title>.status{
+    width: 143.75px;
+    text-align: center;
+    padding: 6px 0;
+    border: 0;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.page>.title>.status.plan{
+    color: #BE9AE4;
+    background-color: #F2E7FF;
+}
+
+.page>.title>.status.work{
+    color: #849FF4;
+    background-color: #CDD8FA;
+}
+
+.page>.title>.status.shipped{
+    color: #AFDAFC;
+    background-color: #E2F2FF;
+}
+
+.page>.title>.status.sent{
+    color: #D8BFD8;
+    background-color: #FEE9FE;
+}
+
+.page>.title>.status.card.completed{
+    color: #71BC78;
+    background-color: #CEF6D2;
+}
+
+.page>.subtitle{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page>.subtitle>.nav{
+    margin-top: 10px;
+    display: flex;
+}
+
+.page>.subtitle>.nav>button{
+    width: 178px;
+    padding: 10px 0;
+    color: black;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: white;
+    border: 1px solid #E0E4E8;
+    outline: none;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.page>.subtitle>.nav>button:first-child{
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.page>.subtitle>.nav>button:last-child{
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+
+.page>.subtitle>.nav>button.active{
+    background-color: var(--var-main-color);
+    border: 1px solid var(--var-main-color);
+    color: white;
+}
+
+.page>.subtitle>.nav>button:hover{
+    background-color: #59B077;
+    border: 1px solid #59B077;
+    color: white;
+}
+
+.page>.subtitle>.nav>button:active{
+    background-color: var(--var-main-color-active);
+    border: 1px solid var(--var-main-color-active);
+    color: white;
+}
+
+.page>.subtitle>button{
+    padding: 12px 38px;
+    border: 0;
+    border-radius: 10px;
+    color: white;
+    background-color: #59B077;
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.page>.subtitle>button:hover{
+    background-color: var(--var-main-color-hover);
+}
+
+.page>.subtitle>button:active{
+    background-color: var(--var-main-color-active);
+}
+
+.page>.card-list{
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 30px;
+}
+
+.page>.card-list>.card{
+    height: 300px;
+    background-color: white;
+    padding: 25px;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.page>.card-list>.card>.title{
+    font-size: 24px;
+    color: #3C3C3C;
+    font-weight: 700;
+    transition: .3s all;
+}
+
+.page>.card-list>.card>.responsible{
+    margin-top: 10px;
+    font-size: 14px;
+    color: #C4CACD;
+    font-weight: 700;
+}
+
+.page>.card-list>.card>.info{
+    margin-top: 10px;
+    font-size: 14px;
+    color: #C4CACD;
+    font-weight: 700;
+}
+
+.page>.card-list>.card>.status{
+    position: absolute;
+    margin-top: 100px;
+    padding: 5px 0;
+    width: 120px;
+    text-align: center;
+    background-color: #F6F8FA;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.page>.card-list>.card.plan{
+    border-bottom: 10px solid #AFDAFC;
+}
+
+.page>.card-list>.card.plan>.status{
+    color: #AFDAFC;
+}
+
+.page>.card-list>.card.work{
+    border-bottom: 10px solid #74B1E2;
+}
+
+.page>.card-list>.card.work>.status{
+    color: #74B1E2;
+}
+
+.page>.card-list>.card.sent{
+    border-bottom: 10px solid #D8BFD8;
+}
+
+.page>.card-list>.card.sent>.status{
+    color: #D8BFD8;
+}
+
+.page>.card-list>.card.production{
+    border-bottom: 10px solid #EFA94A;
+}
+
+.page>.card-list>.card.production>.status{
+    color: #EFA94A;
+}
+
+.page>.card-list>.card.shipped{
+    border-bottom: 10px solid #AFDAFC;
+}
+
+.page>.card-list>.card.shipped>.status{
+    color: #AFDAFC;
+}
+
+.page>.card-list>.card.completed{
+    border-bottom: 10px solid #71BC78;
+}
+
+.page>.card-list>.card.completed>.status{
+    color: #71BC78;
+}
+
+.page>.card-list>.card:hover{
+    background-color: var(--var-main-color);
+    border: 0;
+}
+
+.page>.card-list>.card:hover .title{
+    color: white;
+}
+
+.page>.card-list>.card:hover .responsible{
+    opacity: 0;
+}
+
+.page>.card-list>.card:hover .status{
+    opacity: 0;
+}
+
