@@ -124,3 +124,162 @@
     opacity: 0;
 }
 
+.modal{
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(217, 217, 217, 0.4);
+}
+
+.modal>.modal-content{
+    background-color: white;
+    padding: 40px;
+    border: 0;
+    border-radius: 33px;
+}
+
+.modal>.modal-content>form{
+    display: flex;
+    flex-direction: column;
+    width: 340px;
+}
+
+.modal>.modal-content>form>p.title{
+    color: black;
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.modal>.modal-content>form>label{
+    margin-top: 25px;
+    margin-bottom: 10px;
+    color: #565555;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.modal>.modal-content>form>input{
+    border: 1px solid #D2D3D7;
+    border-radius: 7px;
+    padding: 12px 20px;
+    color: #6A6A6A;
+    font-weight: 600;
+    font-size: 14px;
+    outline: none;
+    transition: .3s all;
+}
+
+.modal>.modal-content>form>input:hover{
+    border: 1px solid var(--var-main-color);
+}
+
+.modal>.modal-content>form>input:focus{
+    border: 1px solid var(--var-main-color);
+}
+
+.modal>.modal-content>form>select{
+    border: 1px solid #D2D3D7;
+    border-radius: 7px;
+    padding: 12px 20px;
+    color: #6A6A6A;
+    font-weight: 600;
+    font-size: 14px;
+    outline: none;
+    transition: .3s all;
+}
+
+.modal>.modal-content>form>select:hover{
+    border: 1px solid var(--var-main-color);
+}
+
+.modal>.modal-content>form>select:focus{
+    border: 1px solid var(--var-main-color);
+}
+
+/* Style the Select2 container */
+.select2-container {
+    border: 1px solid #D2D3D7;
+    border-radius: 7px;
+    color: #6A6A6A;
+    font-weight: 600;
+    font-size: 14px;
+    outline: none;
+    transition: .3s all;
+}
+
+/* Style the Select2 container on hover */
+.select2-container--default .select2-selection--single:hover {
+    border: 1px solid var(--var-main-color);
+}
+
+/* Style the Select2 container on focus */
+.select2-container--default .select2-selection--single:focus-within {
+    border: 1px solid var(--var-main-color);
+}
+
+/* Style the dropdown */
+.select2-container--default .select2-selection--multiple {
+    border: 1px solid #D2D3D7;
+    border-radius: 7px;
+    padding: 12px 20px;
+    color: #6A6A6A;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Style the tags inside the dropdown */
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #D2D3D7;
+    color: #6A6A6A;
+    border-radius: 7px;
+}
+
+.modal>.modal-content>form>button[type="submit"]{
+    margin-top: 20px;
+    padding: 14px 0;
+    background-color: var(--var-main-color);
+    border: 0;
+    border-radius: 100px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.modal>.modal-content>form>button[type="submit"]:hover{
+    background-color: var(--var-main-color-hover);
+}
+
+.modal>.modal-content>form>button[type="submit"]:active{
+    background-color: var(--var-main-color-active);
+}
+
+.modal>.modal-content>form>button[type="button"]{
+    margin-top: 20px;
+    padding: 14px 0;
+    background-color: #F95B5E;
+    border: 0;
+    border-radius: 100px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.modal>.modal-content>form>button[type="button"]:hover{
+    background-color: #FA7275;
+}
+
+.modal>.modal-content>form>button[type="button"]:active{
+    background-color: #E76567;
+}

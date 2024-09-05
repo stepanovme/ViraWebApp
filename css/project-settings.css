@@ -1,0 +1,320 @@
+.page>.title{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page>.title>h1>a{
+    text-decoration: none;
+    color: black;
+    outline: none;
+}
+
+.page>.title>.status{
+    width: 143.75px;
+    text-align: center;
+    padding: 6px 0;
+    border: 0;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.page>.title>.status.plan{
+    color: #BE9AE4;
+    background-color: #F2E7FF;
+}
+
+.page>.title>.status.work{
+    color: #849FF4;
+    background-color: #CDD8FA;
+}
+
+.page>.title>.status.shipped{
+    color: #AFDAFC;
+    background-color: #E2F2FF;
+}
+
+.page>.title>.status.sent{
+    color: #D8BFD8;
+    background-color: #FEE9FE;
+}
+
+.page>.title>.status.card.completed{
+    color: #71BC78;
+    background-color: #CEF6D2;
+}
+
+.page>.subtitle{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page>.subtitle>.nav{
+    margin-top: 10px;
+    display: flex;
+}
+
+.page>.subtitle>.nav>button{
+    width: 178px;
+    padding: 10px 0;
+    color: black;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: white;
+    border: 1px solid #E0E4E8;
+    outline: none;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.page>.subtitle>.nav>button:first-child{
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.page>.subtitle>.nav>button:last-child{
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+
+.page>.subtitle>.nav>button.active{
+    background-color: var(--var-main-color);
+    border: 1px solid var(--var-main-color);
+    color: white;
+}
+
+.page>.subtitle>.nav>button:hover{
+    background-color: #59B077;
+    border: 1px solid #59B077;
+    color: white;
+}
+
+.page>.subtitle>.nav>button:active{
+    background-color: var(--var-main-color-active);
+    border: 1px solid var(--var-main-color-active);
+    color: white;
+}
+
+.page>.subtitle>button{
+    padding: 12px 38px;
+    border: 0;
+    border-radius: 10px;
+    color: white;
+    background-color: #59B077;
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.page>.subtitle>button:hover{
+    background-color: var(--var-main-color-hover);
+}
+
+.page>.subtitle>button:active{
+    background-color: var(--var-main-color-active);
+}
+
+.page>form>.settings{
+    padding: 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #E0E4E8;
+    border-radius: 10px;
+}
+
+.page>form>.settings>label{
+    margin-top: 30px;
+    margin-bottom: 10px;
+    color: #6A6A6A;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.page>form>.settings>label:nth-child(1){
+    margin-top: 0;
+}
+
+.page>form>.settings>input{
+    padding: 10px 20px;
+    background-color: #F6F8FA;
+    border: 1px solid #E0E4E8;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;
+    outline: none;
+    transition: .3s all;
+}
+
+.page>form>.settings>input:hover{
+    border: 1px solid var(--var-main-color);
+}
+
+.page>form>.settings>input:focus{
+    border: 1px solid var(--var-main-color);
+}
+
+.page>form>.settings>select{
+    padding: 10px 20px;
+    background-color: #F6F8FA;
+    border: 1px solid #E0E4E8;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+    transition: .3s all;
+}
+
+.page>form>.settings>select:hover{
+    border: 1px solid var(--var-main-color);
+}
+
+.page>form>.settings>select:focus{
+    border: 1px solid var(--var-main-color);
+}
+
+.page>form>.buttons{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.page>form>.buttons>button[type="submit"]{
+    width: 270px;
+    padding: 12px 0;
+    background-color: var(--var-main-color);
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+    transition: .3s all;
+}
+
+.page>form>.buttons>button[type="submit"]:hover{
+    background-color: var(--var-main-color-hover);
+}
+
+.page>form>.buttons>button[type="submit"]:active{
+    background-color: var(--var-main-color-active);
+}
+
+.page>form>.buttons>button[type="button"]{
+    width: 270px;
+    padding: 12px 0;
+    background-color: #F95B5E;
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+    transition: .3s all;
+}
+
+.page>form>.buttons>button[type="button"]:hover{
+    background-color: #FA7275;
+}
+
+.page>form>.buttons>button[type="button"]:active{
+    background-color: #E76567;
+}
+
+.modal{
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(249, 249, 251, 0.4);
+}
+
+.modal>.modal-content{
+    padding: 40px;
+    background-color: white;
+    border: 1px solid #E0E4E8;
+    border-radius: 33px;
+    -webkit-box-shadow: 0px 0px 51px -19px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0px 0px 51px -19px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 51px -19px rgba(0, 0, 0, 0.4);
+}
+
+.modal>.modal-content>form{
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal>.modal-content>form>p.title{
+    font-weight: 600;
+    font-size: 32px;
+    color: black;
+    margin-bottom: 50px;
+}
+
+.modal>.modal-content>form>.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+}
+
+.modal>.modal-content>form>.buttons>button[type="submit"]{
+    width: 270px;
+    background-color: var(--var-main-color);
+    border: 0;
+    border-radius: 100px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 14px 0;
+    cursor: pointer;
+    outline: none;
+    transition: .3s all;
+}
+
+.modal>.modal-content>form>.buttons>button[type="submit"]:hover{
+    background-color: var(--var-main-color-hover);
+}
+
+.modal>.modal-content>form>.buttons>button[type="submit"]:active{
+    background-color: var(--var-main-color-active);
+}
+
+.modal>.modal-content>form>.buttons>button[type="button"]{
+    width: 270px;
+    background-color: #F95B5E;
+    border: 0;
+    border-radius: 100px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 14px 0;
+    cursor: pointer;
+    outline: none;
+    transition: .3s all;
+}
+
+.modal>.modal-content>form>.buttons>button[type="button"]:hover{
+    background-color: #FA7275;
+}
+
+.modal>.modal-content>form>.buttons>button[type="button"]:active{
+    background-color: #E76567;
+}
