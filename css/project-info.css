@@ -100,7 +100,7 @@
     color: white;
 }
 
-.page>.subtitle>button{
+.page>.subtitle>form>button{
     padding: 12px 38px;
     border: 0;
     border-radius: 10px;
@@ -113,11 +113,11 @@
     transition: .3s all;
 }
 
-.page>.subtitle>button:hover{
+.page>.subtitle>form>button:hover{
     background-color: var(--var-main-color-hover);
 }
 
-.page>.subtitle>button:active{
+.page>.subtitle>form>button:active{
     background-color: var(--var-main-color-active);
 }
 

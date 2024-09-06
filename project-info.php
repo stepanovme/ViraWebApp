@@ -42,6 +42,13 @@ if($resultProjectInfo -> num_rows > 0){
     $projectStatusId = $row['projectStatusId'];
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $sqlInsertTicket = "INSERT INTO ticket (projectId, responsibleId) VALUES ('$projectId','$user_id')";
+    $resultInsertTicket = $conn->query($sqlInsertTicket);
+
+}
+
 ?>
 
 
@@ -106,7 +113,9 @@ if($resultProjectInfo -> num_rows > 0){
                         <button type="button" onClick="window.location.href='project-settings?projectId=<?php echo $projectId; ?>'">Настройки</button>
                         <button type="button" onClick="window.location.href='project-analyt?projectId=<?php echo $projectId; ?>'">Аналитика</button>
                     </div>
-                    <button type="button">Добавить</button>
+                    <form method="POST">
+                        <button type="submit">Добавить</button>
+                    </form>
                 </div>
 
                 <?php
@@ -136,23 +145,29 @@ if($resultProjectInfo -> num_rows > 0){
                                             echo $row['name'] .' '. $row['surname'];
                                         }
 
-                                    echo '</p><p class="responsible">';
+                                    echo '</p>';
                                         
-                                        $sqlColor = "SELECT * FROM colorCad WHERE colorCadId = $colorId";
-                                        $resultColor = $conn -> query($sqlColor);
+                                        if($colorId != null){
+                                            $sqlColor = "SELECT * FROM colorCad WHERE colorCadId = $colorId";
+                                            $resultColor = $conn -> query($sqlColor);
 
-                                        if($resultColor -> num_rows > 0){ 
-                                            $row = $resultColor -> fetch_assoc();
-                                            echo $row['colorCadName'];
-                                            echo ' ';
+                                            if($resultColor -> num_rows > 0){ 
+                                                $row = $resultColor -> fetch_assoc();
+                                                echo '<p class="responsible">';
+                                                echo $row['colorCadName'];
+                                                echo ' ';
+                                            }
                                         }
 
-                                        $sqlThicness = "SELECT * FROM thicknessMetalCad WHERE thicknessMetalCadId = $thicknessId";
-                                        $resultThicness = $conn -> query($sqlThicness);
+                                        if($thicknessId != null){
+                                            $sqlThicness = "SELECT * FROM thicknessMetalCad WHERE thicknessMetalCadId = $thicknessId";
+                                            $resultThicness = $conn -> query($sqlThicness);
 
-                                        if($resultThicness -> num_rows > 0){ 
-                                            $row = $resultThicness -> fetch_assoc();
-                                            echo $row['thicknessMetalCadName'] . ' мм';
+                                            if($resultThicness -> num_rows > 0){ 
+                                                $row = $resultThicness -> fetch_assoc();
+                                                echo $row['thicknessMetalCadName'] . ' мм';
+                                                echo '</p>';
+                                            }
                                         }
 
                                     

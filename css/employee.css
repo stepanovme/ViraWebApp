@@ -1,0 +1,216 @@
+.page>.title{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page>.title>button{
+    padding: 12px 38px;
+    color: white;
+    background-color: var(--var-main-color);
+    border: 0;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.page>.title>button:hover{
+    background-color: var(--var-main-color-hover);
+}
+
+.page>.title>button:active{
+    background-color: var(--var-main-color-active);
+}
+
+.page>table{
+    margin-top: 20px;
+    width: 100%;
+    padding: 20px;
+    background-color: white;
+    border: 0;
+    border-radius: 10px;
+    border-collapse: collapse;
+}
+
+.page>table>thead>tr>th{
+    padding-top: 20px;
+    padding-bottom: 30px;
+    color: #6A6A6A;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.page>table>thead>tr>th:first-child{
+    padding-left: 20px;
+    text-align: start;
+}
+
+.page>table>thead>tr>th:last-child{
+    padding-right: 20px;
+    text-align: end;
+}
+
+.page>table>tbody>tr>td{
+    padding: 25px 0;
+    color: #6A6A6A;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.page>table>tbody>tr{
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.page>table>tbody>tr:hover{
+    background-color: rgba(210, 211, 215, 0.4);
+}
+
+.page>table>tbody>tr>td:first-child{
+    padding-left: 20px;
+    text-align: start;
+    color: black;
+}
+
+.page>table>tbody>tr>td:last-child{
+    padding-right: 20px;
+    text-align: end;
+}
+
+.page>table>tbody>tr>td:last-child:hover{
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.modal{
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(249, 249, 251, 0.4);
+}
+
+.modal>.modal-content{
+    padding: 40px;
+    background-color: white;
+    border: 1px solid #E0E4E8;
+    border-radius: 33px;
+    -webkit-box-shadow: 0px 0px 51px -19px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0px 0px 51px -19px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 51px -19px rgba(0, 0, 0, 0.4);
+}
+
+.modal>.modal-content>form{
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal>.modal-content>form>p.title{
+    margin-bottom: 5px;
+    font-size: 32px;
+    font-weight: 600;
+    color: black;
+    text-align: center;
+}
+
+.modal>.modal-content>form>label{
+    margin-top: 25px;
+    margin-bottom: 10px;
+    color: #565555;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.modal>.modal-content>form>input{
+    border: 1px solid #D2D3D7;
+    border-radius: 6px;
+    padding: 12px 20px;
+    color: #6A6A6A;
+    font-size: 14px;
+    font-weight: 600;
+    outline: none;
+    transition: .3s all;
+}
+
+.modal>.modal-content>form>input:hover{
+    border: 1px solid var(--var-main-color);
+}
+
+.modal>.modal-content>form>input:focus{
+    border: 1px solid var(--var-main-color);
+}
+
+.modal>.modal-content>form>select{
+    border: 1px solid #D2D3D7;
+    border-radius: 6px;
+    padding: 12px 20px;
+    color: #6A6A6A;
+    font-size: 14px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.modal>.modal-content>form>select:hover{
+    border: 1px solid var(--var-main-color);
+}
+
+.modal>.modal-content>form>select:focus{
+    border: 1px solid var(--var-main-color);
+}
+
+.modal>.modal-content>form>button[type="submit"]{
+    margin-top: 20px;
+    background-color: var(--var-main-color);
+    padding: 14px 0;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    border: 0;
+    border-radius: 100px;
+    outline: none;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.modal>.modal-content>form>button[type="submit"]:hover{
+    background-color: var(--var-main-color-hover);
+}
+
+.modal>.modal-content>form>button[type="submit"]:active{
+    background-color: var(--var-main-color-active);
+}
+
+.modal>.modal-content>form>button[type="button"]{
+    margin-top: 20px;
+    background-color: #F95B5E;
+    padding: 14px 0;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    border: 0;
+    border-radius: 100px;
+    outline: none;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.modal>.modal-content>form>button[type="button"]:hover{
+    background-color: #FA7275;
+}
+
+.modal>.modal-content>form>button[type="button"]:active{
+    background-color: #E76567;
+}
+
