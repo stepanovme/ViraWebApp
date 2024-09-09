@@ -1,0 +1,196 @@
+.page>.title{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page>.title>h1>a{
+    text-decoration: none;
+    color: black;
+    outline: none;
+}
+
+.page>.title>.status{
+    width: 143.75px;
+    text-align: center;
+    padding: 6px 0;
+    border: 0;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.page>.title>.status.plan{
+    color: #BE9AE4;
+    background-color: #F2E7FF;
+}
+
+.page>.title>.status.work{
+    color: #849FF4;
+    background-color: #CDD8FA;
+}
+
+.page>.title>.status.shipped{
+    color: #AFDAFC;
+    background-color: #E2F2FF;
+}
+
+.page>.title>.status.sent{
+    color: #D8BFD8;
+    background-color: #FEE9FE;
+}
+
+.page>.title>.status.card.completed{
+    color: #71BC78;
+    background-color: #CEF6D2;
+}
+
+.page>.info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: white;
+    border: 1px solid #E0E4E8;
+    border-radius: 10px;
+}
+
+.page>.info>.col{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    gap: 10px;
+}
+
+.page>.info>.col>p{
+    color: black;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.page>.info>.col>input{
+    padding: 8px 10px;
+    background-color: #F6F8FA;
+    border: 1px solid #E0E4E8;
+    border-radius: 6px;
+    color: #6A6A6A;
+    font-size: 12px;
+    font-weight: 500;
+    outline: none;
+    transition: .3s all;
+}
+
+.page>.info>.col>input:hover{
+    border: 1px solid #59B077;
+}
+
+.page>.info>.col>input:focus{
+    border: 1px solid #59B077;
+}
+
+.page>.info>.col>select{
+    padding: 8px 10px;
+    background-color: #F6F8FA;
+    border: 1px solid #E0E4E8;
+    border-radius: 6px;
+    color: #6A6A6A;
+    font-size: 12px;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.page>.info>.col>select:hover{
+    border: 1px solid #59B077;
+}
+
+.page>.info>.col>select:focus{
+    border: 1px solid #59B077;
+}
+
+.page>.products>table{
+    margin-top: 20px;
+    width: 100%;
+    background-color: white;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.page>.products>table>thead>tr>th{
+    padding: 8px 0;
+    border: 1px solid #E0E4E8;
+    color: #6A6A6A;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.page>.products>table>thead>tr>th:first-child{
+    border-top-left-radius: 6px;
+}
+
+.page>.products>table>thead>tr>th:last-child{
+    border-top-right-radius: 6px;
+}
+
+.page>.products>table>tbody>tr>td{
+    padding: 8px 0;
+    border: 1px solid #E0E4E8;
+    color: #6A6A6A;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    outline: none;
+    transition: .3s all;
+}
+
+.page>.products>table>tbody>tr>td:hover{
+    border: 1px solid #59B077;
+}
+
+.page>.products>table>tbody>tr>td:active{
+    border: 1px solid #59B077;
+}
+
+.page>.products>table>tbody>tr>td>canvas{
+    height: 300px;
+}
+
+.page>.products>table>tbody>tr>td>input[type="text"]{
+    border: 1px solid #E0E4E8;
+    padding: 8px 20px;
+    outline: none;
+    transition: .3s all;
+}
+
+.page>.products>table>tbody>tr>td>input[type="text"]:hover{
+    border: 1px solid #59B077;
+}
+
+.page>.products>table>tbody>tr>td>input[type="text"]:focus{
+    border: 1px solid #59B077;
+}
+
+.page>.products>table>tbody>tr:last-child>td:first-child{
+    border-bottom-left-radius: 6px;
+}
+
+.page>.products>table>tbody>tr:last-child>td:last-child{
+    border-bottom-right-radius: 6px;
+}
+
+.page>.products>table>tbody>tr:last-child>td{
+    background-color: #F0F2F3;
+    cursor: pointer;
+}
+
+.page>.products>p.total{
+    margin-top: 20px;
+    color: black;
+    font-size: 24px;
+    font-weight: 700;
+}

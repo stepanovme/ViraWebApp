@@ -133,7 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $numTicket += 1;
                             if($row['ticketStatusId'] == 1){
                                 echo '
-                                    <div class="card plan">
+                                    <div class="card plan" onClick="window.location.href = \'ticket?ticketId='.$row['ticketId'].'\'">
                                         <p class="title">Заявка на гибку №'.$numTicket.'</p>
                                         <p class="responsible">'; 
                                         
@@ -177,7 +177,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     ';
                             } elseif($row['ticketStatusId'] == 2){ 
                                 echo '
-                                <div class="card work">
+                                <div class="card work" onClick="window.location.href = \'ticket?ticketId='.$row['ticketId'].'\'">
                                     <p class="title">Заявка на гибку №'.$numTicket.'</p>
                                         <p class="responsible">'; 
                                         
@@ -215,7 +215,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 ';
                             } elseif($row['ticketStatusId'] == 3){ 
                                 echo '
-                                <div class="card sent">
+                                <div class="card sent" onClick="window.location.href = \'ticket?ticketId='.$row['ticketId'].'\'">
                                     <p class="title">Заявка на гибку №'.$numTicket.'</p>
                                         <p class="responsible">'; 
                                         
@@ -253,7 +253,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 ';
                             } elseif($row['ticketStatusId'] == 4){ 
                                 echo '
-                                <div class="card shipped">
+                                <div class="card shipped" onClick="window.location.href = \'ticket?ticketId='.$row['ticketId'].'\'">
                                     <p class="title">Заявка на гибку №'.$numTicket.'</p>
                                         <p class="responsible">'; 
                                         
@@ -291,7 +291,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 ';
                             } elseif($row['ticketStatusId'] == 6){ 
                                 echo '
-                                <div class="card completed">
+                                <div class="card completed" onClick="window.location.href = \'ticket?ticketId='.$row['ticketId'].'\'">
                                     <p class="title">Заявка на гибку №'.$numTicket.'</p>
                                         <p class="responsible">'; 
                                         
@@ -329,7 +329,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 ';
                             } elseif($row['ticketStatusId'] == 5){ 
                                 echo '
-                                <div class="card shipped">
+                                <div class="card shipped" onClick="window.location.href = \'ticket?ticketId='.$row['ticketId'].'\'">
                                     <p class="title">Заявка на гибку №'.$numTicket.'</p>
                                         <p class="responsible">'; 
                                         
@@ -367,7 +367,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 ';
                             } else{
                                 echo '
-                                <div class="card">
+                                <div class="card" onClick="window.location.href = \'ticket?ticketId='.$row['ticketId'].'\'">
                                     <p class="title">Заявка на гибку №'.$numTicket.'</p>
                                         <p class="responsible">'; 
                                         
