@@ -1,0 +1,142 @@
+canvas{
+    position: fixed;
+    width: 100%;
+}
+
+.nav{
+    padding: 20px 10px;
+    width: 300px;
+    height: calc(100% - 20px);
+    background-color: white;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    border: 1px solid #E0E4E8;
+    border-radius: 10px;
+}
+
+.nav>p.title{
+    color: #3C3C3C;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.nav>p.title>a{
+    text-decoration: none;
+    margin-right: 5px;
+    color: #3C3C3C;
+}
+
+.nav>hr{
+    height: 2px;
+    color: #E0E4E8;
+    border: 1px solid #E0E4E8;
+    margin-bottom: 10px;
+}
+
+.nav>p.layers{
+    font-size: 16px;
+    font-weight: 700;
+    color: #3C3C3C;
+    cursor: pointer;
+}
+
+.nav>.layers>p{
+    padding: 5px 0;
+    padding-left: 10px;
+    cursor: pointer;
+    transition: .2s all;
+}
+
+.nav>.layers>p:hover{
+    background-color: rgba(222, 222, 222, 0.4);
+}
+
+.tools{
+    display: flex;
+    bottom: 10px;
+    left: 50%;
+    position: fixed;
+    height: 60px;
+    background-color: white;
+    border: 1px solid #E0E4E8;
+    border-radius: 10px;
+}
+
+.tools>button{
+    height: 100%;
+    width: 40px;
+    border: 0;
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+    transition: .2s all;
+}
+
+.tools>button:first-child{
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.tools>button:last-child{
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.tools>button:hover{
+    background-color: rgba(222, 222, 222, 0.4);
+}
+
+.tools>button:active{
+    background-color: rgba(222, 222, 222, 0.7);
+}
+
+.tools>button.active {
+    background-color: #59B077;
+    color: white;
+}
+
+.undo-tools{
+    position: fixed;
+    display: flex;
+    bottom: 10px;
+    left: 330px;
+    height: 60px;
+    background-color: white;
+    border: 1px solid #E0E4E8;
+    border-radius: 10px;
+}
+
+.undo-tools>button{
+    height: 100%;
+    width: 40px;
+    border: 0;
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+    transition: .2s all;
+}
+
+.undo-tools>button:hover{
+    background-color: rgba(222, 222, 222, 0.4);
+}
+
+.undo-tools>button:active{
+    background-color: rgba(222, 222, 222, 0.7);
+}
+
+.undo-tools>button:first-child{
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.undo-tools>button:last-child{
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.undo-tools>button.activer{
+    background-color: #59B077;
+    color: white;
+}

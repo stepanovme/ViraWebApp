@@ -35,6 +35,9 @@ if(isset($_GET['ticketId'])){
 $sqlTicketInfo = "SELECT * FROM ticket WHERE ticketId = $ticketId";
 $resultTicketInfo = $conn -> query($sqlTicketInfo);
 
+$ticketColorCadId = 0;
+$ticketThicknessMetalCadId = 0; 
+
 if($resultTicketInfo -> num_rows > 0){
     $row = $resultTicketInfo -> fetch_assoc();
 
@@ -43,6 +46,8 @@ if($resultTicketInfo -> num_rows > 0){
     $ticketBrigada = $row['ticketBrigada'];
     $ticketAddressDelivery = $row['ticketAddressDelivery'];
     $ticketDatePlan = $row['ticketDatePlan'];
+    $ticketColorCadId = $row['colorCadId'];  // Значение цвета
+    $ticketThicknessMetalCadId = $row['thicknessMetalCadId'];
 }
 
 $sqlProjectTicketInfo = "SELECT * FROM project WHERE projectId = $projectId";
@@ -110,12 +115,13 @@ $sqlSumQuantity = "SELECT * FROM ticket WHERE projectId = $projectId";
                             <option value="0" disabled>Цвет</option>
                             <?php 
                             $sqlColorTicket = "SELECT * FROM projectColorCad pcc LEFT JOIN colorCad cc ON pcc.colorCadId = cc.colorCadId WHERE pcc.projectId = $projectId";
-                            $resultColorTicket = $conn -> query($sqlColorTicket);
+                            $resultColorTicket = $conn->query($sqlColorTicket);
 
-                            if($resultColorTicket -> num_rows > 0){
-                                while($row = $resultColorTicket -> fetch_assoc()){
-                                    $selected = $row['colorCadId'] == $ticketColorCadId ? 'selected' : ''; // Проверяем, если уже есть значение
-                                    echo '<option value="'.$row['colorCadId'].'" '.$selected.'>'.$row['colorCadName'].'</option>';
+                            if ($resultColorTicket->num_rows > 0) {
+                                while ($row = $resultColorTicket->fetch_assoc()) {
+                                    // Проверяем, если уже есть значение, и выбираем его
+                                    $selected = $row['colorCadId'] == $ticketColorCadId ? 'selected' : '';
+                                    echo '<option value="' . $row['colorCadId'] . '" ' . $selected . '>' . $row['colorCadName'] . '</option>';
                                 }
                             }
                             ?>
@@ -125,12 +131,13 @@ $sqlSumQuantity = "SELECT * FROM ticket WHERE projectId = $projectId";
                             <option value="0" disabled>Толщина</option>
                             <?php 
                             $sqlThicknessTicket = "SELECT * FROM projectThicknessMetalCad ptm LEFT JOIN thicknessMetalCad tm ON ptm.thicknessMetalCadId = tm.thicknessMetalCadId WHERE ptm.projectId = $projectId";
-                            $resultThicknessTicket = $conn -> query($sqlThicknessTicket);
+                            $resultThicknessTicket = $conn->query($sqlThicknessTicket);
 
-                            if($resultThicknessTicket -> num_rows > 0){
-                                while($row = $resultThicknessTicket -> fetch_assoc()){
-                                    $selected = $row['thicknessMetalCadId'] == $ticketThicknessMetalCadId ? 'selected' : ''; // Проверяем, если уже есть значение
-                                    echo '<option value="'.$row['thicknessMetalCadId'].'" '.$selected.'>'.$row['thicknessMetalCadName'].'</option>';
+                            if ($resultThicknessTicket->num_rows > 0) {
+                                while ($row = $resultThicknessTicket->fetch_assoc()) {
+                                    // Проверяем, если уже есть значение, и выбираем его
+                                    $selected = $row['thicknessMetalCadId'] == $ticketThicknessMetalCadId ? 'selected' : '';
+                                    echo '<option value="' . $row['thicknessMetalCadId'] . '" ' . $selected . '>' . $row['thicknessMetalCadName'] . '</option>';
                                 }
                             }
                             ?>
@@ -176,7 +183,9 @@ $sqlSumQuantity = "SELECT * FROM ticket WHERE projectId = $projectId";
                                     echo '
                                         <tr>
                                             <td>'.$numProductList.'</td>
-                                            <td style="display: flex; flex-direction: column; padding: 0;"><input type="text" name="" id="" value="'.$row['productName'].'"><canvas></canvas></td>
+                                            <td style="display: flex; flex-direction: column; padding: 0;"><input type="text" name="" id="" value="'.$row['productName'].'">
+                                                <canvas></canvas>
+                                            </td>
                                             <td>196</td>
                                             <td style="cursor: pointer;" contenteditable="">'.$row['productLength'].'</td>
                                             <td style="cursor: pointer;" contenteditable="">'.$row['productQuantity'].'</td>
@@ -202,7 +211,7 @@ $sqlSumQuantity = "SELECT * FROM ticket WHERE projectId = $projectId";
     <script>
     // Функция для отправки AJAX-запроса
     function updateTicket(field, value) {
-        var ticketId = "<?php echo $ticketId; ?>";  // Получаем id заявки
+        var ticketId = "<?php echo $ticketId; ?>";
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "function/update_ticket", true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -213,6 +222,8 @@ $sqlSumQuantity = "SELECT * FROM ticket WHERE projectId = $projectId";
         };
         xhr.send("ticketId=" + ticketId + "&field=" + field + "&value=" + value);
     }
+
+
 </script>
 </body>
 </html>
