@@ -16,6 +16,7 @@ canvas{
 }
 
 .nav>p.title{
+    display: flex;
     color: #3C3C3C;
     font-size: 20px;
     font-weight: 700;
@@ -24,8 +25,17 @@ canvas{
 
 .nav>p.title>a{
     text-decoration: none;
-    margin-right: 5px;
+    margin-right: 4px;
     color: #3C3C3C;
+}
+
+.nav>p.title>input{
+    width: 100%;
+    color: #3C3C3C;
+    font-size: 20px;
+    font-weight: 700;
+    border: 0;
+    outline: none;
 }
 
 .nav>hr{
@@ -140,3 +150,4 @@ canvas{
     background-color: #59B077;
     color: white;
 }
+

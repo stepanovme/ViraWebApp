@@ -46,7 +46,7 @@ if($resultTicketInfo -> num_rows > 0){
     $ticketBrigada = $row['ticketBrigada'];
     $ticketAddressDelivery = $row['ticketAddressDelivery'];
     $ticketDatePlan = $row['ticketDatePlan'];
-    $ticketColorCadId = $row['colorCadId'];  // Значение цвета
+    $ticketColorCadId = $row['colorCadId'];
     $ticketThicknessMetalCadId = $row['thicknessMetalCadId'];
 }
 
@@ -180,16 +180,31 @@ $sqlSumQuantity = "SELECT * FROM ticket WHERE projectId = $projectId";
                             if($resultProductsList -> num_rows > 0){
                                 while($row = $resultProductsList -> fetch_assoc()){
                                     $numProductList += 1;
+                                    $productId = $row['productId'];
+                                    $productLength = $row['productLength'];
+                                    $productQuantity = $row['productQuantity'];
+                                    $productArea = $row['productArea'];
                                     echo '
                                         <tr>
                                             <td>'.$numProductList.'</td>
                                             <td style="display: flex; flex-direction: column; padding: 0;"><input type="text" name="" id="" value="'.$row['productName'].'">
-                                                <canvas></canvas>
-                                            </td>
-                                            <td>196</td>
-                                            <td style="cursor: pointer;" contenteditable="">'.$row['productLength'].'</td>
-                                            <td style="cursor: pointer;" contenteditable="">'.$row['productQuantity'].'</td>
-                                            <td style="cursor: pointer;" contenteditable="">'.$row['productArea'].'</td>
+                                                <canvas onClick="window.location.href = \'product-cad?productId='.$row['productId'].'\'"></canvas>
+                                            </td>';
+                                        
+                                         $sqlProductSum = "SELECT SUM(`number`) as sumLength FROM `lines` WHERE productId = $productId";
+                                         $resultProductSum = $conn -> query($sqlProductSum);
+
+                                         if($resultProductSum -> num_rows > 0){
+                                            $row = $resultProductSum -> fetch_assoc();
+                                            echo '<td>'.$row['sumLength'].'</td>';
+                                         } else{
+                                            echo '<td>0</td>';
+                                         }
+
+                                    echo '
+                                            <td style="cursor: pointer;" contenteditable="">'.$productLength.'</td>
+                                            <td style="cursor: pointer;" contenteditable="">'.$productQuantity.'</td>
+                                            <td style="cursor: pointer;" contenteditable="">'.$productArea.'</td>
                                         </tr>
                                         ';
                                 }

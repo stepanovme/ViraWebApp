@@ -1,3 +1,67 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: auth.php');
+    exit;
+}
+
+$user_id = $_SESSION['user_id'];
+
+require 'conn.php';
+
+$sql = "SELECT * FROM user WHERE userId = $user_id";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $name = $row['name'];
+    $surname = $row['surname'];
+    $roleId = $row['roleId'];
+}
+
+$sql = "SELECT * FROM role WHERE roleId = $roleId";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $roleName = $row['roleName'];
+}
+
+if (isset($_GET['productId'])) {
+    $productId = intval($_GET['productId']);
+
+    $sqlProductInfo = "SELECT * FROM product WHERE productId = $productId";
+    $resultProductInfo = $conn->query($sqlProductInfo);
+    if ($resultProductInfo->num_rows > 0) {
+        $row = $resultProductInfo->fetch_assoc();
+        $productName = $row['productName'];
+        $ticketId = $row['ticketId'];
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $lines = json_decode($_POST['lines'], true);
+    $texts = json_decode($_POST['texts'], true);
+
+    $conn->query("DELETE FROM lines WHERE productId = $productId");
+    $conn->query("DELETE FROM texts WHERE productId = $productId");
+
+    $stmt = $conn->prepare("INSERT INTO lines (productId, x1, y1, x2, y2, isArc, isArrow, number) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    foreach ($lines as $line) {
+        $stmt->bind_param('iiiiiiis', $productId, $line['x1'], $line['y1'], $line['x2'], $line['y2'], $line['isArc'], $line['isArrow'], $line['number']);
+        $stmt->execute();
+    }
+    $stmt->close();
+
+    $stmt = $conn->prepare("INSERT INTO texts (productId, text, x, y) VALUES (?, ?, ?, ?)");
+    foreach ($texts as $text) {
+        $stmt->bind_param('issi', $productId, $text['text'], $text['x'], $text['y']);
+        $stmt->execute();
+    }
+    $stmt->close();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -14,16 +78,10 @@
 <body>
     <canvas></canvas>
     <div class="nav">
-        <p class="title"><a href=""><</a>Откосная планка 300мм</p>
+        <p class="title"><a href="ticket?ticketId=<?php echo $ticketId;?>"><</a><input type="text" name="productName" id="productName" value="<?php echo $productName;?>"></p>
         <hr>
-        <p class="layers">Слои</p>
+        <p class="layers">Шаблоны</p>
         <div class="layers">
-            <p>Линия</p>
-            <p>Линия</p>
-            <p>Линия</p>
-            <p>Линия</p>
-            <p>Линия</p>
-            <p>Линия</p>
         </div>
     </div>
 
@@ -46,25 +104,24 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        // Grid settings
         const gridColor = '#E0E4E8';
         const lineColor = '#3C3C3C';
         const gridSize = 20;
-        const arrowSize = 10; // Размер стрелки
+        const arrowSize = 10;
 
-        // Arrays to store all drawn lines and text
         let lines = [];
         let texts = [];
 
-        // Track whether we are interacting with a number (to prevent drawing lines)
         let editingNumber = false;
 
-        // Track if the text mode, arrow mode, or arc mode is active
+        let isDrawing = false;
         let isTextMode = false;
         let isArrowMode = false;
         let isArcMode = false;
+        let isEraserMode = false;
 
-        // Function to draw the grid
+        let startX, startY, currentX, currentY;
+
         function drawGrid() {
             ctx.strokeStyle = gridColor;
             ctx.lineWidth = 0.5;
@@ -84,7 +141,6 @@
             }
         }
 
-        // Function to draw an arrow
         function drawArrow(x1, y1, x2, y2) {
             const angle = Math.atan2(y2 - y1, x2 - x1);
             ctx.beginPath();
@@ -96,17 +152,15 @@
             ctx.fill();
         }
 
-        // Function to draw an arc
         function drawArc(x1, y1, x2, y2) {
-            // Привязываем координаты начала и конца дуги к сетке
             x1 = Math.round(x1 / gridSize) * gridSize;
             y1 = Math.round(y1 / gridSize) * gridSize;
             x2 = Math.round(x2 / gridSize) * gridSize;
             y2 = Math.round(y2 / gridSize) * gridSize;
 
-            const radius = Math.hypot(x2 - x1, y2 - y1) / 2; // Радиус — половина расстояния между точками
-            const centerX = (x1 + x2) / 2; // Центр дуги по X
-            const centerY = (y1 + y2) / 2; // Центр дуги по Y
+            const radius = Math.hypot(x2 - x1, y2 - y1) / 2;
+            const centerX = (x1 + x2) / 2;
+            const centerY = (y1 + y2) / 2;
 
             const angleX = x2 - x1;
             const angleY = y2 - y1;
@@ -114,56 +168,45 @@
             ctx.beginPath();
 
             if (Math.abs(angleX) > Math.abs(angleY)) {
-                // Горизонтальная дуга (слева направо или справа налево)
                 if (x2 > x1) {
-                    // Справа направо — нижняя дуга
-                    ctx.arc(centerX, centerY, radius, Math.PI, 2 * Math.PI, false); // Полуокружность вниз
+                    ctx.arc(centerX, centerY, radius, Math.PI, 2 * Math.PI, false);
                 } else {
-                    // Слева направо — верхняя дуга
-                    ctx.arc(centerX, centerY, radius, 0, Math.PI, false); // Полуокружность вверх
+                    ctx.arc(centerX, centerY, radius, 0, Math.PI, false);
                 }
             } else {
-                // Вертикальная дуга (сверху вниз или снизу вверх)
                 if (y2 > y1) {
-                    // Сверху вниз — правая дуга
-                    ctx.arc(centerX, centerY, radius, 1.5 * Math.PI, 0.5 * Math.PI, false); // Полуокружность вправо
+                    ctx.arc(centerX, centerY, radius, 1.5 * Math.PI, 0.5 * Math.PI, false);
                 } else {
-                    // Снизу вверх — левая дуга
-                    ctx.arc(centerX, centerY, radius, 0.5 * Math.PI, 1.5 * Math.PI, false); // Полуокружность влево
+                    ctx.arc(centerX, centerY, radius, 0.5 * Math.PI, 1.5 * Math.PI, false);
                 }
             }
 
             ctx.stroke();
         }
 
-        // Function to draw all lines and texts
         function drawAll() {
-            clearCanvas(); // Clear the canvas and redraw the grid
+            clearCanvas(); 
             ctx.strokeStyle = lineColor;
             ctx.lineWidth = 2;
 
             lines.forEach(line => {
                 if (line.isArc) {
-                    // Draw arc
                     drawArc(line.x1, line.y1, line.x2, line.y2);
                 } else {
-                    // Draw line
                     ctx.beginPath();
                     ctx.moveTo(line.x1, line.y1);
                     ctx.lineTo(line.x2, line.y2);
                     ctx.stroke();
 
-                    // Draw arrow if needed
                     if (line.isArrow) {
                         drawArrow(line.x1, line.y1, line.x2, line.y2);
                     } else {
-                        // Draw number near the line but offset it
                         const midX = (line.x1 + line.x2) / 2;
                         const midY = (line.y1 + line.y2) / 2;
-                        const offset = 20; // Offset from the line
+                        const offset = 20; 
                         ctx.font = '16px Arial';
                         ctx.fillStyle = 'black';
-                        ctx.fillText(line.number, midX + offset, midY + offset); // Position the number away from the line
+                        ctx.fillText(line.number, midX + offset, midY + offset); 
                     }
                 }
             });
@@ -173,32 +216,53 @@
                 ctx.fillStyle = 'black';
                 ctx.fillText(text.text, text.x, text.y);
             });
+
+            saveToDatabase();
         }
 
-        // Function to clear canvas and redraw the grid
         function clearCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawGrid();
         }
 
-        // Function to show the preview line or arc
+        function eraseElement(mouseX, mouseY) {
+            lines = lines.filter(line => {
+                const midX = (line.x1 + line.x2) / 2;
+                const midY = (line.y1 + line.y2) / 2;
+                const offset = 20; 
+                const withinLine = Math.abs(mouseX - (midX + offset)) > 20 || Math.abs(mouseY - (midY + offset)) > 20;
+                return withinLine;
+            });
+
+            texts = texts.filter(text => {
+                return Math.abs(mouseX - text.x) > 20 || Math.abs(mouseY - text.y) > 20;
+            });
+
+            drawAll();
+        }
+
+        const textButton = document.getElementById('textButton');
+        const lineButton = document.getElementById('lineButton');
+        const anotherButton = document.getElementById('anotherButton');
+        const anotherButton2 = document.getElementById('anotherButton2');
+
         canvas.addEventListener('mousemove', (e) => {
             if (isDrawing) {
                 currentX = Math.round(e.clientX / gridSize) * gridSize;
                 currentY = Math.round(e.clientY / gridSize) * gridSize;
 
-                drawAll(); // Redraw all existing lines and texts
+                drawAll(); 
 
                 ctx.strokeStyle = lineColor;
                 ctx.lineWidth = 2;
 
                 if (isArcMode) {
-                    drawArc(startX, startY, currentX, currentY); // Draw arc preview
+                    drawArc(startX, startY, currentX, currentY);
                 } else {
                     ctx.beginPath();
                     ctx.moveTo(startX, startY);
                     ctx.lineTo(currentX, currentY);
-                    ctx.stroke(); // Draw preview of the current line
+                    ctx.stroke(); 
                     if (isArrowMode) {
                         drawArrow(startX, startY, currentX, currentY);
                     }
@@ -206,19 +270,19 @@
             }
         });
 
-        // Function to start drawing
         canvas.addEventListener('mousedown', (e) => {
-            if (!editingNumber && !isTextMode) {
+            if (isEraserMode) {
+                eraseElement(e.clientX, e.clientY); 
+            } else if (!editingNumber && !isTextMode) {
                 isDrawing = true;
                 startX = Math.round(e.clientX / gridSize) * gridSize;
                 startY = Math.round(e.clientY / gridSize) * gridSize;
                 currentX = startX;
                 currentY = startY;
             }
-            editingNumber = false; // Reset after possible number editing
+            editingNumber = false; 
         });
 
-        // Function to stop drawing and finalize the line or arc
         canvas.addEventListener('mouseup', (e) => {
             if (isDrawing) {
                 const endX = Math.round(e.clientX / gridSize) * gridSize;
@@ -226,7 +290,6 @@
 
                 if (startX !== endX || startY !== endY) {
                     if (isArcMode) {
-                        // Add an arc
                         lines.push({ x1: startX, y1: startY, x2: endX, y2: endY, isArc: true });
                     } else if (isArrowMode) {
                         lines.push({ x1: startX, y1: startY, x2: endX, y2: endY, number: '', isArrow: true });
@@ -240,7 +303,6 @@
             isDrawing = false;
         });
 
-        // Function to edit the number when clicking on it
         canvas.addEventListener('click', (e) => {
             const mouseX = e.clientX;
             const mouseY = e.clientY;
@@ -248,16 +310,15 @@
             lines.forEach((line, index) => {
                 const midX = (line.x1 + line.x2) / 2;
                 const midY = (line.y1 + line.y2) / 2;
-                const offset = 20; // Offset for the number
+                const offset = 20; 
 
-                // Check if the click is near the text (number)
                 if (!line.isArrow && !line.isArc && Math.abs(mouseX - (midX + offset)) < 20 && Math.abs(mouseY - (midY + offset)) < 20) {
                     const newNumber = prompt('Введите новое значение для линии:', line.number);
                     if (newNumber !== null) {
                         line.number = newNumber;
                         drawAll();
                     }
-                    editingNumber = true; // Mark that we edited a number to prevent drawing a new line
+                    editingNumber = true; 
                 }
             });
 
@@ -268,47 +329,65 @@
                     const y = e.clientY;
                     texts.push({ text, x, y });
                     drawAll();
-                    setActiveButton(textButton); // Deactivate text mode after adding text
+                    setActiveButton(textButton); 
                 }
             }
         });
 
-        // Function to handle tool buttons
-        const textButton = document.getElementById('textButton');
-        const lineButton = document.getElementById('lineButton');
-        const anotherButton = document.getElementById('anotherButton');
-        const anotherButton2 = document.getElementById('anotherButton2');
-
         function setActiveButton(button) {
             document.querySelectorAll('.tools button').forEach(btn => btn.classList.remove('active'));
-            if ((button === textButton && isTextMode) || (button === lineButton && isArrowMode) || (button === anotherButton) || (button === anotherButton2 && isArcMode)) {
+
+            if (button === textButton && isTextMode || 
+                button === lineButton && isArrowMode || 
+                button === anotherButton && isEraserMode || 
+                button === anotherButton2 && isArcMode) {
                 isTextMode = false;
                 isArrowMode = false;
                 isArcMode = false;
+                isEraserMode = false;
             } else {
                 button.classList.add('active');
                 isTextMode = button === textButton;
                 isArrowMode = button === lineButton;
                 isArcMode = button === anotherButton2;
+                isEraserMode = button === anotherButton; 
             }
         }
 
         textButton.addEventListener('click', () => setActiveButton(textButton));
         lineButton.addEventListener('click', () => setActiveButton(lineButton));
-        anotherButton.addEventListener('click', () => setActiveButton(anotherButton));
+        anotherButton.addEventListener('click', () => setActiveButton(anotherButton)); 
         anotherButton2.addEventListener('click', () => setActiveButton(anotherButton2));
 
-        // Resize canvas and redraw grid on window resize
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            drawAll();
-        });
-
-        // Initial setup
         drawGrid();
 
+        function saveToDatabase() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'save', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
 
+            const data = {
+                productId: <?php echo $productId; ?>,
+                lines: lines,
+                texts: texts
+            };
+
+            console.log('Data to be sent:', JSON.stringify(data));
+
+            xhr.onload = function() {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    console.log('Success:', xhr.responseText);
+                } else {
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+
+            xhr.onerror = function() {
+                console.error('Request failed');
+            };
+
+            xhr.send(JSON.stringify(data));
+        }
 
     </script>
 </body>

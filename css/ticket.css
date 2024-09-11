@@ -157,11 +157,15 @@
 }
 
 .page>.products>table>tbody>tr>td>canvas{
+    cursor: pointer;
     height: 300px;
 }
 
 .page>.products>table>tbody>tr>td>input[type="text"]{
     border: 1px solid #E0E4E8;
+    border-left: 0px;
+    border-top: 0px;
+    border-right: 0px;
     padding: 8px 20px;
     outline: none;
     transition: .3s all;
