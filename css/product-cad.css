@@ -52,15 +52,10 @@ canvas{
     cursor: pointer;
 }
 
-.nav>.layers>p{
-    padding: 5px 0;
-    padding-left: 10px;
-    cursor: pointer;
-    transition: .2s all;
-}
-
-.nav>.layers>p:hover{
-    background-color: rgba(222, 222, 222, 0.4);
+.nav>.layers{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
 }
 
 .tools{

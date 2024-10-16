@@ -1,35 +1,37 @@
 <?php
+
 require '../conn.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $ticketId = $_POST['ticketId'];
-    $field = $_POST['field'];
-    $value = $_POST['value'];
+// Подключение к базе данных
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-    // Безопасность: экранируем значения для предотвращения SQL-инъекций
-    $ticketId = $conn->real_escape_string($ticketId);
-    $field = $conn->real_escape_string($field);
-    $value = $conn->real_escape_string($value);
+// Получение данных из AJAX-запроса
+$data = json_decode(file_get_contents('php://input'), true);
 
-    // Разрешенные поля для обновления
-    $allowedFields = ['ticketArea', 'ticketBrigada', 'ticketAddressDelivery', 'colorCadId', 'thicknessMetalCadId', 'ticketDatePlan'];
-    
-    if (in_array($field, $allowedFields)) {
-        // Для поля даты добавляем проверку на правильность формата (YYYY-MM-DD)
-        if ($field == 'ticketDatePlan') {
-            if (!preg_match('/\d{4}-\d{2}-\d{2}/', $value)) {
-                echo "Invalid date format";
-                exit;
-            }
-        }
-
-        // Обновляем запись в таблице ticket
-        $sql = "UPDATE ticket SET $field = '$value' WHERE ticketId = $ticketId";
-        if ($conn->query($sql) === TRUE) {
-            echo "Record updated successfully";
-        } else {
-            echo "Error updating record: " . $conn->error;
-        }
-    }
+if (!$data) {
+    die(json_encode(['success' => false, 'error' => 'Ошибка чтения данных JSON']));
 }
+
+$ticketId = $data['ticketId'] ?? null;
+$productName = $data['productName'] ?? null;
+$productLength = $data['productLength'] ?? null;
+$productQuantity = $data['productQuantity'] ?? null;
+
+if (!$ticketId || !$productName || !$productLength || !$productQuantity) {
+    die(json_encode(['success' => false, 'error' => 'Отсутствуют обязательные параметры']));
+}
+
+// Подготовка SQL-запроса с параметрами
+$stmt = $conn->prepare("INSERT INTO product (ticketId, productName, productLength, productQuantity) VALUES (?, ?, ?, ?)");
+$stmt->bind_param("isdi", $ticketId, $productName, $productLength, $productQuantity);
+
+if ($stmt->execute()) {
+    echo json_encode(['success' => true]);
+} else {
+    echo json_encode(['success' => false, 'error' => $stmt->error]);
+}
+
+$stmt->close();
+$conn->close();
 ?>

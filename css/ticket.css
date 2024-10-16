@@ -198,3 +198,16 @@
     font-size: 24px;
     font-weight: 700;
 }
+
+#contextMenu > button{
+    background-color: #F0F2F3;
+    border: 0;
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+#contextMenu > button:hover{
+    /* background-color: white; */
+    color: #59B077;
+}

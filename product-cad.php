@@ -82,6 +82,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <hr>
         <p class="layers">Шаблоны</p>
         <div class="layers">
+            <div class="empty">
+                <img src="" alt="">
+                <p class="title">Недоступно</p>
+            </div>
         </div>
     </div>
 
@@ -98,7 +102,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script>
-        
         const canvas = document.querySelector('canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -185,40 +188,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         function drawAll() {
-            clearCanvas(); 
+            clearCanvas();
             ctx.strokeStyle = lineColor;
             ctx.lineWidth = 2;
 
             lines.forEach(line => {
+                console.log(`Drawing line: ${line.isArc ? 'Arc' : 'Line'}, isArrow: ${line.isArrow}, Coordinates: (${line.x1}, ${line.y1}) to (${line.x2}, ${line.y2}), Number: ${line.number}`);
+
                 if (line.isArc) {
+                    console.log('Drawing Arc');
                     drawArc(line.x1, line.y1, line.x2, line.y2);
                 } else {
+                    console.log('Drawing Line');
                     ctx.beginPath();
                     ctx.moveTo(line.x1, line.y1);
                     ctx.lineTo(line.x2, line.y2);
                     ctx.stroke();
 
                     if (line.isArrow) {
+                        console.log('Drawing Arrow');
                         drawArrow(line.x1, line.y1, line.x2, line.y2);
+                    } 
+
+                    const midX = (line.x1 + line.x2) / 2;
+                    const midY = (line.y1 + line.y2) / 2;
+                    const offset = 10;
+                    ctx.font = '16px Arial';
+                    ctx.fillStyle = 'black';
+                    
+                    if (line.number && line.number !== '') {
+                        console.log(`Drawing Line Number: ${line.number}`);
+                        ctx.fillText(line.number, midX + offset, midY - offset);
                     } else {
-                        const midX = (line.x1 + line.x2) / 2;
-                        const midY = (line.y1 + line.y2) / 2;
-                        const offset = 20; 
-                        ctx.font = '16px Arial';
-                        ctx.fillStyle = 'black';
-                        ctx.fillText(line.number, midX + offset, midY + offset); 
+                        console.log('Line number is missing');
                     }
                 }
             });
 
             texts.forEach(text => {
-                ctx.font = '20px Arial';
+                console.log(`Drawing Text: ${text.text} at (${text.x}, ${text.y})`);
+                ctx.font = '20px Inter';
                 ctx.fillStyle = 'black';
                 ctx.fillText(text.text, text.x, text.y);
             });
 
             saveToDatabase();
         }
+
+
 
         function clearCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -337,20 +354,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         function setActiveButton(button) {
             document.querySelectorAll('.tools button').forEach(btn => btn.classList.remove('active'));
 
-            if (button === textButton && isTextMode || 
-                button === lineButton && isArrowMode || 
-                button === anotherButton && isEraserMode || 
-                button === anotherButton2 && isArcMode) {
-                isTextMode = false;
+            if (button === textButton) {
+                isTextMode = !isTextMode;
                 isArrowMode = false;
                 isArcMode = false;
                 isEraserMode = false;
-            } else {
+            } else if (button === lineButton) {
+                isArrowMode = !isArrowMode;
+                isTextMode = false;
+                isArcMode = false;
+                isEraserMode = false;
+            } else if (button === anotherButton) {
+                isEraserMode = !isEraserMode;
+                isTextMode = false;
+                isArrowMode = false;
+                isArcMode = false;
+            } else if (button === anotherButton2) {
+                isArcMode = !isArcMode;
+                isTextMode = false;
+                isArrowMode = false;
+                isEraserMode = false;
+            }
+
+            if (isTextMode || isArrowMode || isArcMode || isEraserMode) {
                 button.classList.add('active');
-                isTextMode = button === textButton;
-                isArrowMode = button === lineButton;
-                isArcMode = button === anotherButton2;
-                isEraserMode = button === anotherButton; 
             }
         }
 
@@ -360,6 +387,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         anotherButton2.addEventListener('click', () => setActiveButton(anotherButton2));
 
         drawGrid();
+
+        window.onload = function() {
+            fetch(`load?productId=${<?php echo $productId; ?>}`)
+                .then(response => response.json())
+                .then(data => {
+                    lines = data.lines.map(line => ({
+                        ...line,
+                        isArc: line.isArc === "1",
+                        isArrow: line.isArrow === "1"
+                    }));
+                    texts = data.texts;
+                    console.log(data)
+                    drawAll();
+                })
+                .catch(error => console.error('Error loading data:', error));
+        };
 
         function saveToDatabase() {
             const xhr = new XMLHttpRequest();
@@ -388,7 +431,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             xhr.send(JSON.stringify(data));
         }
-
     </script>
 </body>
 </html>

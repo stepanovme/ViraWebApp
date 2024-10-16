@@ -153,9 +153,9 @@ $sqlSumQuantity = "SELECT * FROM ticket WHERE projectId = $projectId";
                         <p>Дата план:</p>
                         <input type="date" id="ticketDatePlan" value="<?php echo $ticketDatePlan; ?>" onchange="updateTicket('ticketDatePlan', this.value)">
                         <p>Кол-во изделий:</p>
-                        <input type="text" name="" id="" readonly>
+                        <input type="text" id="quantitySumInput" name="quantitySum" readonly>
                         <p>Погонаж:</p>
-                        <input type="text" name="" id="" readonly>
+                        <input type="text" id="quantityPogInput" name="quantityPog" readonly>
                     </div>
                 </div>
 
@@ -185,9 +185,9 @@ $sqlSumQuantity = "SELECT * FROM ticket WHERE projectId = $projectId";
                                     $productQuantity = $row['productQuantity'];
                                     $productArea = $row['productArea'];
                                     echo '
-                                        <tr>
+                                        <tr oncontextmenu="showContextMenu(event, '.$productId.')">
                                             <td>'.$numProductList.'</td>
-                                            <td style="display: flex; flex-direction: column; padding: 0;"><input type="text" name="" id="" value="'.$row['productName'].'">
+                                            <td style="display: flex; flex-direction: column; padding: 0;"><input type="text" name="" id="" value="'.$row['productName'].'" data-id="'.$productId.'" onblur="updateProductName(this)" onkeyup="checkEnter(event, this)">
                                                 <canvas onClick="window.location.href = \'product-cad?productId='.$row['productId'].'\'"></canvas>
                                             </td>';
                                         
@@ -202,16 +202,16 @@ $sqlSumQuantity = "SELECT * FROM ticket WHERE projectId = $projectId";
                                          }
 
                                     echo '
-                                            <td style="cursor: pointer;" contenteditable="">'.$productLength.'</td>
-                                            <td style="cursor: pointer;" contenteditable="">'.$productQuantity.'</td>
-                                            <td style="cursor: pointer;" contenteditable="">'.$productArea.'</td>
+                                            <td style="cursor: pointer;" contenteditable="" data-id="'.$productId.'" onblur="updateProductLength(this)" onkeyup="checkEnter(event, this)">'.$productLength.'</td>
+                                            <td style="cursor: pointer;" contenteditable="" data-id="'.$productId.'" data-ticket-id="'.$ticketId.'" onblur="updateProductQuantity(this)" onkeyup="checkEnter(event, this)">'.$productQuantity.'</td>
+                                            <td style="cursor: pointer;" contenteditable="" data-id="'.$productId.'" onblur="updateProductArea(this)" onkeyup="checkEnter(event, this)">'.$productArea.'</td>
                                         </tr>
                                         ';
                                 }
                             }
                             ?>
                             <tr>
-                                <td colspan="6">+</td>
+                                <td colspan="6" id="add-product-btn">+</td>
                             </tr>
                         </tbody>
                     </table>
@@ -223,12 +223,16 @@ $sqlSumQuantity = "SELECT * FROM ticket WHERE projectId = $projectId";
         </div>
     </div>
 
+    <div id="contextMenu" style="display:none; position:absolute; z-index:1000;">
+        <button onclick="deleteProduct()">Удалить</button>
+    </div>
+
     <script>
     // Функция для отправки AJAX-запроса
     function updateTicket(field, value) {
         var ticketId = "<?php echo $ticketId; ?>";
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "function/update_ticket", true);
+        xhr.open("POST", "function/update_ticket.php", true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -238,6 +242,255 @@ $sqlSumQuantity = "SELECT * FROM ticket WHERE projectId = $projectId";
         xhr.send("ticketId=" + ticketId + "&field=" + field + "&value=" + value);
     }
 
+    document.getElementById('add-product-btn').addEventListener('click', function() {
+        const ticketId = <?= $ticketId; ?>; // Используем PHP для передачи значения
+        fetch('function/add_product', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                ticketId: ticketId
+            })
+        })
+        .then(response => response.text()) // Use text() to see the raw output
+        .then(data => console.log(data)) // Log the output to the console
+        .catch(error => console.error('Ошибка:', error));
+
+        location.reload()
+    });
+
+    let currentProductId = null;
+
+    // Показ контекстного меню
+    function showContextMenu(event, productId) {
+        event.preventDefault(); // Отменяем стандартное меню
+        currentProductId = productId; // Запоминаем ID продукта
+        
+        const menu = document.getElementById("contextMenu");
+        menu.style.display = "block";
+        menu.style.left = `${event.pageX}px`;
+        menu.style.top = `${event.pageY}px`;
+
+        // Скрыть меню, если кликаем вне его
+        document.addEventListener('click', () => menu.style.display = 'none', { once: true });
+    }
+
+    // Удаление продукта
+    function deleteProduct() {
+        if (currentProductId) {
+            fetch('function/delete-product', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId: currentProductId })
+            })
+            .then(data => {
+                if (data.success) {
+                    location.reload(); // Обновляем страницу после удаления
+                } else {
+                    // alert("Ошибка при удалении продукта.");
+                    location.reload(); // Обновляем страницу после удаления
+
+                }
+            });
+        }
+    }
+
+    function checkEnter(event, element) {
+        if (event.key === 'Enter') {
+            element.blur(); // Завершает редактирование input
+        }
+    }
+
+    // Функция для обновления длины продукта
+    function updateProductName(element) {
+        const productId = element.getAttribute('data-id');
+        const productName = element.value;
+
+        // Проверка на пустое значение (по необходимости)
+        if (!productName.trim()) {
+            alert("Название продукта не может быть пустым.");
+            return;
+        }
+
+        // AJAX-запрос для обновления имени продукта
+        fetch('function/update-product-name', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                productId: productId,
+                productName: productName
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                alert("Ошибка при обновлении названия продукта.");
+            }
+        })
+        .catch(error => {
+            console.error("Ошибка:", error);
+        });
+    }
+
+    function updateProductLength(element) {
+        // Получаем ID продукта
+        const productId = element.getAttribute('data-id');
+        
+        // Получаем текст из contenteditable элемента
+        const productLength = element.innerText.trim();
+
+        // Проверка на пустое значение (по необходимости)
+        if (!productLength) {
+            alert("Длина продукта не может быть пустой.");
+            return;
+        }
+
+        // AJAX-запрос для обновления длины продукта
+        fetch('function/update-product-length', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                productId: productId,
+                productLength: productLength
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                alert("Ошибка при обновлении длины продукта.");
+            }
+        })
+        .catch(error => {
+            const ticketId = <?php echo $ticketId; ?>;
+            updatePogMetrSum(ticketId);
+        });
+    }
+
+    function updateProductQuantity(element) {
+        // Получаем ID продукта
+        const productId = element.getAttribute('data-id');
+        
+        // Получаем текст из contenteditable элемента
+        const productQuantity = element.innerText.trim();
+
+        // Проверка на пустое значение (по необходимости)
+        if (!productQuantity) {
+            alert("Количество продукта не может быть пустым.");
+            return;
+        }
+
+        // AJAX-запрос для обновления количества продукта
+        fetch('function/update-product-quantity', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                productId: productId,
+                productQuantity: productQuantity
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Если обновление прошло успешно, обновляем сумму
+                const ticketId = element.getAttribute('data-ticket-id'); // Получаем ticketId
+                updateQuantitySum(ticketId); // Обновляем сумму productQuantity для данного ticketId
+            } else {
+                alert("Ошибка при обновлении количества продукта.");
+            }
+        })
+        .catch(error => {
+            const ticketId = element.getAttribute('data-ticket-id'); // Получаем ticketId
+            updateQuantitySum(ticketId); // Обновляем сумму productQuantity для данного ticketId
+            updatePogMetrSum(ticketId);
+        });
+    }
+
+    function updateProductArea(element) {
+        // Получаем ID продукта
+        const productId = element.getAttribute('data-id');
+        
+        // Получаем текст из contenteditable элемента
+        const productArea = element.innerText.trim();
+
+        // Проверка на пустое значение (по необходимости)
+        if (!productArea) {
+            alert("Длина продукта не может быть пустой.");
+            return;
+        }
+
+        // AJAX-запрос для обновления длины продукта
+        fetch('function/update-product-area', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                productId: productId,
+                productArea: productArea
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                alert("Ошибка при обновлении длины продукта.");
+            }
+        })
+        .catch(error => {
+            console.error("Ошибка:", error);
+        });
+    }
+
+    function updateQuantitySum(ticketId) {
+        // AJAX-запрос для получения обновленной суммы количества продуктов
+        fetch(`function/get-product-quantity-sum?ticketId=${ticketId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Обновляем значение input с ID quantitySumInput
+                const inputElement = document.getElementById('quantitySumInput');
+                inputElement.value = data.sumQuantity; // Устанавливаем новое значение
+            } else {
+                console.error("Ошибка при получении суммы количества продуктов.");
+            }
+        })
+        .catch(error => {
+            console.error("Ошибка:", error);
+        });
+    }
+
+    // Обновляем сумму при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function() {
+        const ticketId = <?php echo $ticketId; ?>; // Получение значения ticketId
+        updateQuantitySum(ticketId);
+    });
+
+    function updatePogMetrSum(ticketId) {
+        fetch(`function/get-pogmetrsum?ticketId=${ticketId}`)
+            .then(response => response.json())
+            .then(data => {
+                // Обновляем значение поля input
+                const inputField = document.getElementById('quantityPogInput');
+                inputField.value = data.PogMetrSum;
+            })
+            .catch(error => {
+                console.error("Ошибка:", error);
+            });
+    }
+
+    // Вызов функции для обновления значения при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function() {
+        const ticketId = <?php echo $ticketId; ?>;
+        updatePogMetrSum(ticketId);
+    });
 
 </script>
 </body>
