@@ -54,6 +54,7 @@ if ($result->num_rows > 0) {
             <p class="title">ГЛАВНОЕ МЕНЮ</p>
             <a href="/" class="active"><img src="/assets/icons/dashboard.svg"> Дашборд</a>
             <a href="metal.php"><img src="/assets/icons/metal.svg"> Сгибка металла</a>
+            <a href="warehouse.php"><img src="/assets/icons/warehouse.svg"> Склад</a>
             <p class="title">ИНФОРМАЦИЯ</p>
             <a href="employee.php"><img src="/assets/icons/employee.svg"> Сотрудники</a>
         </div>

@@ -1,0 +1,274 @@
+.page>.subtitle{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page>.subtitle>.nav{
+    margin-top: 10px;
+    display: flex;
+}
+
+.page>.subtitle>.nav>button{
+    width: 178px;
+    padding: 10px 0;
+    color: black;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: white;
+    border: 1px solid #E0E4E8;
+    outline: none;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.page>.subtitle>.nav>button:first-child{
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.page>.subtitle>.nav>button:last-child{
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+
+.page>.subtitle>.nav>button.active{
+    background-color: var(--var-main-color);
+    border: 1px solid var(--var-main-color);
+    color: white;
+}
+
+.page>.subtitle>.nav>button:hover{
+    background-color: #59B077;
+    border: 1px solid #59B077;
+    color: white;
+}
+
+.page>.subtitle>.nav>button:active{
+    background-color: var(--var-main-color-active);
+    border: 1px solid var(--var-main-color-active);
+    color: white;
+}
+
+.page>.search{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+    gap: 10px;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: white;
+    border: 1px solid #E0E4E8;
+    border-radius: 10px;
+}
+
+.page>.search>input{
+    width: 70%;
+    padding: 8px 10px;
+    background-color: #F6F8FA;
+    border: 1px solid #E0E4E8;
+    border-radius: 6px;
+    color: #6A6A6A;
+    font-size: 12px;
+    font-weight: 500;
+    outline: none;
+    transition: .3s all;
+}
+
+.page>.search>select{
+    width: 10%;
+    padding: 8px 10px;
+    background-color: #F6F8FA;
+    border: 1px solid #E0E4E8;
+    border-radius: 6px;
+    color: #6A6A6A;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+    transition: .3s all;
+}
+
+.page>table{
+    margin-top: 10px;
+    border-collapse: collapse;
+    padding: 12px;
+    width: 100%;
+    text-align: center;
+    background-color: white;
+    border: 1px solid #E0E4E8;
+    border-radius: 10px;
+}
+
+.page>table>thead>tr>th{
+    padding: 10px 0;
+}
+
+.page>table>tbody>tr{
+    cursor: pointer;
+    transition: .1s all;
+}
+
+.page>table>tbody>tr>td{
+    padding: 10px 0;
+    border: 1px solid white;
+}
+
+.page>table>tbody>tr:hover{
+    background-color: #E0E4E8;
+}
+
+.page>table>tbody>tr:hover td{
+    border: 1px solid #E0E4E8;
+}
+
+.page>.subtitle>form>button {
+    padding: 12px 38px;
+    border: 0;
+    border-radius: 10px;
+    color: white;
+    background-color: #59B077;
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.page>.subtitle>form>button:hover{
+    background-color: var(--var-main-color-hover);
+}
+
+.page>.subtitle>form>button:active{
+    background-color: var(--var-main-color-active);
+}
+
+.modal{
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(249, 249, 251, 0.4);
+}
+
+.modal>.modal-content{
+    padding: 40px;
+    background-color: white;
+    border: 1px solid #E0E4E8;
+    border-radius: 33px;
+    -webkit-box-shadow: 0px 0px 51px -19px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0px 0px 51px -19px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 51px -19px rgba(0, 0, 0, 0.4);
+}
+
+.modal>.modal-content>form{
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal>.modal-content>form>p.title{
+    margin-bottom: 5px;
+    font-size: 32px;
+    font-weight: 600;
+    color: black;
+    text-align: center;
+}
+
+.modal>.modal-content>form>label{
+    margin-top: 25px;
+    margin-bottom: 10px;
+    color: #565555;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.modal>.modal-content>form>input{
+    border: 1px solid #D2D3D7;
+    border-radius: 6px;
+    padding: 12px 20px;
+    color: #6A6A6A;
+    font-size: 14px;
+    font-weight: 600;
+    outline: none;
+    transition: .3s all;
+}
+
+.modal>.modal-content>form>input:hover{
+    border: 1px solid var(--var-main-color);
+}
+
+.modal>.modal-content>form>input:focus{
+    border: 1px solid var(--var-main-color);
+}
+
+.modal>.modal-content>form>select{
+    border: 1px solid #D2D3D7;
+    border-radius: 6px;
+    padding: 12px 20px;
+    color: #6A6A6A;
+    font-size: 14px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.modal>.modal-content>form>select:hover{
+    border: 1px solid var(--var-main-color);
+}
+
+.modal>.modal-content>form>select:focus{
+    border: 1px solid var(--var-main-color);
+}
+
+.modal>.modal-content>form>button[type="submit"]{
+    margin-top: 20px;
+    background-color: var(--var-main-color);
+    padding: 14px 0;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    border: 0;
+    border-radius: 100px;
+    outline: none;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.modal>.modal-content>form>button[type="submit"]:hover{
+    background-color: var(--var-main-color-hover);
+}
+
+.modal>.modal-content>form>button[type="submit"]:active{
+    background-color: var(--var-main-color-active);
+}
+
+.modal>.modal-content>form>button[type="button"]{
+    margin-top: 20px;
+    background-color: #F95B5E;
+    padding: 14px 0;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    border: 0;
+    border-radius: 100px;
+    outline: none;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.modal>.modal-content>form>button[type="button"]:hover{
+    background-color: #FA7275;
+}
+
+.modal>.modal-content>form>button[type="button"]:active{
+    background-color: #E76567;
+}
